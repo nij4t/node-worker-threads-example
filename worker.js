@@ -1,6 +1,6 @@
 const { parentPort } = require('worker_threads')
-const fn = require('./lib.js')
+const { time } = require('./lib.js')
 
 parentPort.on("message", msg => {
-  parentPort.postMessage(fn(msg))
+  parentPort.postMessage(`Worker #${msg}: ${time()}`)
 });

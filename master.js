@@ -1,12 +1,13 @@
-const { Worker, isMainThread, parentPort } = require('worker_threads');
+const { Worker } = require("worker_threads");
 
-const worker = new Worker('./worker.js')
+const workerFile = "./worker.js";
+const workerPool = [];
 
-const a = () => { return 5 }
+for (let i = 0; i < 10; i++) {
+  workerPool[i] = new Worker(workerFile);
+  workerPool[i].postMessage(i);
+}
 
-for(let i=0; i<10; i++)
-	worker.postMessage(new Date())
-
-worker.on("message", msg => {
-  console.log(msg)
-});
+workerPool.map(w => w.on("message", (msg) => {
+  console.log(msg);
+}));
